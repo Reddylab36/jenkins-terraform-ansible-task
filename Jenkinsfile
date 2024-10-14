@@ -1,9 +1,11 @@
 pipeline {
     agent any
-
+    environment {
+        AWS_REGION = 'us-west-1'  // Set AWS region
+        TF_VAR_aws_access_key = credentials('aws-access-key-id')  // AWS credentials
+        TF_VAR_aws_secret_key = credentials('aws-secret-access-key')  // AWS credentials
+    }
     stages {
-        
-
         stage('Checkout') {
             steps {
                 sh 'git clone https://github.com/Reddylab36/jenkins-terraform-ansible-task.git' 
