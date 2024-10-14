@@ -3,7 +3,7 @@ provider "aws" {
 
 }
 resource "aws_security_group" "vm_sg" {
-  name        = "vm_sg3"
+  name        = "vm_sg${BUILD_NUMBER}"
   description = "Security group for VMs"
   
   ingress {
