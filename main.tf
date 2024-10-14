@@ -3,7 +3,7 @@ provider "aws" {
 
 }
 resource "aws_security_group" "vm_sg" {
-  name        = "vm_sg2"
+  name        = "vm_sg3"
   description = "Security group for VMs"
   
   ingress {
@@ -30,7 +30,7 @@ resource "aws_security_group" "vm_sg" {
 
 # Deploy first VM (Amazon Linux)
 resource "aws_instance" "c8_local" {
-  ami           = var.linux-ami # Amazon Linux 2 AMI
+  ami           = "ami-043eeee51b66ae5cb" # Amazon Linux 2 AMI
   instance_type = "t2.micro"
   key_name      = "ansible" # Specify your key pair
   security_groups = [aws_security_group.vm_sg.name]
@@ -47,16 +47,16 @@ sudo hostnamectl set-hostname c8_local
   public_ip="$(curl -s https://api64.ipify.org?format=json | jq -r .ip)"
 
   # Path to /etc/hosts
-  echo "${aws_instance.u22_local.public_ip} $hostname" | sudo tee -a /etc/hosts
+  echo "${aws_instance.c8_local.public_ip} $hostname" | sudo tee -a /etc/hosts
 
 EOF
 depends_on = [aws_instance.c8_local]
 
 }
 
-# Deploy second VM (Ubuntu 21.04)
+# Deploy second VM (Ubuntu 22.04)
 resource "aws_instance" "u22_local" {
-  ami           = var.ubuntu-ami # Ubuntu Server 22.04 AMI
+  ami           = "ami-0819a8650d771b8be" # Ubuntu Server 22.04 AMI
   instance_type = "t2.micro"
   key_name      = "ansible" # Specify your key pair
   security_groups = [aws_security_group.vm_sg.name]
