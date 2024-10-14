@@ -37,12 +37,12 @@ resource "aws_instance" "frontend" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "c8_local"
+    Name = "c8.local"
   }
 
   user_data = <<EOF
 #!/bin/bash
-sudo hostnamectl set-hostname u22_local
+sudo hostnamectl set-hostname u22.local
   hostname=$(hostname)
   public_ip="$(curl -s https://api64.ipify.org?format=json | jq -r .ip)"
 
@@ -50,7 +50,7 @@ sudo hostnamectl set-hostname u22_local
   echo "${aws_instance.backend.public_ip} $hostname" | sudo tee -a /etc/hosts
 
 EOF
-depends_on = [aws_instance.c8_local]
+depends_on = [aws_instance.backend]
 
 }
 
@@ -63,12 +63,12 @@ resource "aws_instance" "backend" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "u22_local"
+    Name = "u22.local"
   }
 
   user_data = <<EOF
 #!/bin/bash
-sudo hostnamectl set-hostname u22_local
+sudo hostnamectl set-hostname U22.local
 netdata_conf="/etc/netdata/netdata.conf"
   # Path to netdata.conf
   # actual_ip=0.0.0.0
@@ -81,16 +81,16 @@ resource "local_file" "inventory" {
   filename = "./inventory.yaml"
   content  = <<EOF
 [frontend]
-${aws_instance.c8_local.public_ip}
+${aws_instance.frontend.public_ip}
 [backend]
-${aws_instance.u22_local.public_ip}
+${aws_instance.backend.public_ip}
 EOF
 }
 
 output "frontend_public_ip" {
-  value = aws_instance.c8_local.public_ip
+  value = aws_instance.frontend.public_ip
 }
 
 output "backend_public_ip" {
-  value = aws_instance.u22_local.public_ip
+  value = aws_instance.backend.public_ip
 }
