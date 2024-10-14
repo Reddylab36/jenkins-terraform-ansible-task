@@ -29,7 +29,7 @@ resource "aws_security_group" "vm_sg" {
 }
 
 # Deploy first VM (Amazon Linux)
-resource "aws_instance" "c8_local" {
+resource "aws_instance" "frontend" {
   ami           = "ami-043eeee51b66ae5cb" # Amazon Linux 2 AMI
   instance_type = "t2.micro"
   key_name      = "ansible" # Specify your key pair
@@ -42,12 +42,12 @@ resource "aws_instance" "c8_local" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo hostnamectl set-hostname c8_local
+sudo hostnamectl set-hostname u22_local
   hostname=$(hostname)
   public_ip="$(curl -s https://api64.ipify.org?format=json | jq -r .ip)"
 
   # Path to /etc/hosts
-  echo "${aws_instance.c8_local.public_ip} $hostname" | sudo tee -a /etc/hosts
+  echo "${aws_instance.backend.public_ip} $hostname" | sudo tee -a /etc/hosts
 
 EOF
 depends_on = [aws_instance.c8_local]
@@ -55,7 +55,7 @@ depends_on = [aws_instance.c8_local]
 }
 
 # Deploy second VM (Ubuntu 22.04)
-resource "aws_instance" "u22_local" {
+resource "aws_instance" "backend" {
   ami           = "ami-0819a8650d771b8be" # Ubuntu Server 22.04 AMI
   instance_type = "t2.micro"
   key_name      = "ansible" # Specify your key pair
