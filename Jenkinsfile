@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        AWS_REGION = 'us-east-1'  // Replace with your AWS region
+        AWS_REGION = 'us-west-1'  // Replace with your AWS region
         TF_VAR_aws_access_key = credentials('aws-access-key-id')  // Reference Jenkins credentials
         TF_VAR_aws_secret_key = credentials('aws-secret-access-key')
     }
