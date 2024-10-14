@@ -15,6 +15,14 @@ pipeline {
             steps {
                 script {
                     dir('/var/lib/jenkins/workspace/Declarative-job/jenkins-terraform-ansible-task') {
+                        // Use withCredentials to securely access AWS credentials
+                withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                                 credentialsId: 'aws_credentials',
+                                 usernameVariable: 'AWS_ACCESS_KEY_ID',
+                                 passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    // Set AWS region if needed
+                    env.AWS_DEFAULT_REGION = 'us-west-1'
+                    // Execute Terraform commands
                     sh 'pwd'
                     sh 'terraform init'
                     sh 'terraform validate'
