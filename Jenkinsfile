@@ -6,7 +6,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                sh 'https://github.com/Reddylab36/jenkins-terraform-ansible-task.git' 
+                sh 'git clone https://github.com/Reddylab36/jenkins-terraform-ansible-task.git' 
             }
         }
         
@@ -29,8 +29,8 @@ pipeline {
             steps {
                 script {
                    sleep '360'
-                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'amazonlinux', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/amazon-playbook.yml', vaultTmpPath: ''
-                    ansiblePlaybook become: true, credentialsId: 'ubuntuuser', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/ubuntu-playbook.yml', vaultTmpPath: ''
+                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'amazonlinux', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/Declarative-job/inventory.yaml', playbook: '/var/lib/jenkins/workspace/Declarative-job/amazon-playbook.yml', vaultTmpPath: ''
+                    ansiblePlaybook become: true, credentialsId: 'ubuntuuser', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/Declarative-job/inventory.yaml', playbook: '/var/lib/jenkins/workspace/Declarative-job/ubuntu-playbook.yml', vaultTmpPath: ''
                 }
             }
         }
