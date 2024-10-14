@@ -1,7 +1,7 @@
 provider "aws" {
   region = "us-west-1"
-  access_key = var.YOUR_ACCESS_KEY
-  secret_key = var.YOUR_SECRET_KEY
+  access_key = var.aws-access-key-id
+  secret_key = var.aws-secret-key-id
 }
 resource "aws_security_group" "vm_sg" {
   name        = "vm_sg2"
