@@ -6,8 +6,6 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                deleteDir()
-                sh 'echo cloning repo'
                 sh 'https://github.com/Reddylab36/jenkins-terraform-ansible-task.git' 
             }
         }
@@ -15,7 +13,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    dir('/var/lib/jenkins/workspace/ansible-tf/ansible-task/') {
+                    dir('/var/lib/jenkins/workspace/Declarative-job') {
                     sh 'pwd'
                     sh 'terraform init'
                     sh 'terraform validate'
